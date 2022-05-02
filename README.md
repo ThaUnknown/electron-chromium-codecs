@@ -63,3 +63,13 @@ $ electron/script/strip-binaries.py -d out/Release
 $ ninja -C out/Release electron:electron_dist_zip
 ```
 Result dist will be inside src/out/Release/dist.zip
+
+## Credits
+
+Thanks [ThaUnknown](https://github.com/ThaUnknown) for providing help with debugging and the final steps on ffmpeg chromium scripts in order make chromium point the correct codecs to ffmpeg demuxer for the AC3 audio.
+
+Thanks [henrypp](https://github.com/henrypp/chromium) for the initial patches on HEVC.
+
+Thanks [AAAhs](https://github.com/AAAhs/electron-hevc/commit/0f6eaeb7ded395d356aa3cd46bbe74ae315dd4be) for more up to date HEVC patches.
+
+https://github.com/nwjs-ffmpeg-prebuilt/nwjs-ffmpeg-prebuilt/pull/33/commits/7ac9e95594765c60b207490d3c4512432e081d21
