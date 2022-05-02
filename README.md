@@ -32,6 +32,12 @@ $ gclient sync --with_branch_heads --with_tags
 # This will take a while, go get a coffee.
 ```
 
+Move patches to respective directories
+```bash
+$ mv look_chromium_hevc_ac3.patch electron/src/
+$ mv look_electron_hevc_ac3.patch electron/src/electron/
+$ mv look_ffmpeg_hevc_ac3.patch electron/src/third_party/ffmpeg/
+```
 
 Apply the patches
 
