@@ -32,6 +32,25 @@ $ gclient sync --with_branch_heads --with_tags
 # This will take a while, go get a coffee.
 ```
 
+Setup electron environment for pulling later
+
+```bash
+$ cd src/electron
+$ git remote remove origin
+$ git remote add origin https://github.com/electron/electron
+$ git checkout main
+$ git branch --set-upstream-to=origin/main
+$ cd -
+```
+
+Choosing a stable electron version to build
+```bash
+$ cd src/electron
+$ git checkout v18.2.1
+# You might want to force the checkout with git checkout -f
+$ gclient sync -f
+```
+
 Move patches to respective directories
 ```bash
 $ mv look_chromium_hevc_ac3.patch electron/src/
@@ -63,6 +82,22 @@ $ electron/script/strip-binaries.py -d out/Release
 $ ninja -C out/Release electron:electron_dist_zip
 ```
 Result dist will be inside src/out/Release/dist.zip
+
+## Updating electron and rebuilding
+
+Updating electron repository (pull)
+```bash
+$ cd src/electron
+$ git pull
+$ gclient sync -f
+```
+
+## Removing all changes (everything! including HEAD added files and directories!!!!)
+```bash
+$ cd src/ && git reset --hard HEAD && git clean -df
+$ cd src/electron/ && git reset --hard HEAD && git clean -df
+$ cd src/third_party/ffmpeg/ && git reset --hard HEAD && git clean -df
+```
 
 ## Credits
 
