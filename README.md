@@ -44,6 +44,7 @@ $ cd -
 ```
 
 Choosing a stable electron version to build
+(Make sure you have the same node version as stated in your versions [DEPS file](https://github.com/electron/electron/blob/main/DEPS))
 ```bash
 $ cd src/electron
 $ git checkout v18.2.1
@@ -93,6 +94,7 @@ $ gclient sync -f
 ```
 
 ## Removing all changes (everything! including HEAD added files and directories!!!!)
+To be honest you might as well clone everything again.
 ```bash
 $ cd src/ && git reset --hard HEAD && git clean -df
 $ cd src/electron/ && git reset --hard HEAD && git clean -df
