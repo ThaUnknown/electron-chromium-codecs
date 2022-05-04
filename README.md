@@ -49,6 +49,7 @@ Choosing a stable electron version to build
 $ cd src/electron
 $ git checkout v18.2.1
 # You might want to force the checkout with git checkout -f
+# Change the node version now to the same node version as the electron tag you want to use
 $ gclient sync -f
 ```
 
