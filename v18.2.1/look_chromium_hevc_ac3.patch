@@ -1,0 +1,178 @@
+diff --git a/electron b/electron
+new file mode 160000
+index 0000000000000..3bc25c997d8b8
+--- /dev/null
++++ b/electron
+@@ -0,0 +1 @@
++Subproject commit 3bc25c997d8b80f6f7f8e95e8d1e1f2d6bbfe543
+diff --git a/media/base/supported_types.cc b/media/base/supported_types.cc
+index e45abab5c2d58..5f3c7c6c22045 100644
+--- a/media/base/supported_types.cc
++++ b/media/base/supported_types.cc
+@@ -137,7 +137,6 @@ bool IsVideoCodecProprietary(VideoCodec codec) {
+     case VideoCodec::kH264:
+     case VideoCodec::kMPEG2:
+     case VideoCodec::kMPEG4:
+-    case VideoCodec::kHEVC:
+     case VideoCodec::kDolbyVision:
+       return true;
+     case VideoCodec::kUnknown:
+@@ -145,6 +144,7 @@ bool IsVideoCodecProprietary(VideoCodec codec) {
+     case VideoCodec::kVP8:
+     case VideoCodec::kVP9:
+     case VideoCodec::kAV1:
++    case VideoCodec::kHEVC:
+       return false;
+   }
+ }
+@@ -152,8 +152,6 @@ bool IsVideoCodecProprietary(VideoCodec codec) {
+ bool IsAudioCodecProprietary(AudioCodec codec) {
+   switch (codec) {
+     case AudioCodec::kAAC:
+-    case AudioCodec::kAC3:
+-    case AudioCodec::kEAC3:
+     case AudioCodec::kAMR_NB:
+     case AudioCodec::kAMR_WB:
+     case AudioCodec::kGSM_MS:
+@@ -165,6 +163,8 @@ bool IsAudioCodecProprietary(AudioCodec codec) {
+ 
+     case AudioCodec::kFLAC:
+     case AudioCodec::kMP3:
++    case AudioCodec::kAC3:
++    case AudioCodec::kEAC3:
+     case AudioCodec::kOpus:
+     case AudioCodec::kVorbis:
+     case AudioCodec::kPCM:
+@@ -178,33 +178,6 @@ bool IsAudioCodecProprietary(AudioCodec codec) {
+ }
+ #endif  // !BUILDFLAG(USE_PROPRIETARY_CODECS)
+ 
+-bool IsHevcProfileSupported(const VideoType& type) {
+-#if BUILDFLAG(ENABLE_PLATFORM_ENCRYPTED_HEVC)
+-  // Only encrypted HEVC content is supported, and normally MSE.isTypeSupported
+-  // returns false for HEVC. The kEnableClearHevcForTesting flag allows it to
+-  // return true to enable a wider array of test scenarios to function properly.
+-  if (!base::CommandLine::ForCurrentProcess()->HasSwitch(
+-          switches::kEnableClearHevcForTesting)) {
+-    return false;
+-  }
+-
+-  // Color management required for HDR to not look terrible.
+-  if (!IsColorSpaceSupported(type.color_space))
+-    return false;
+-
+-  switch (type.profile) {
+-    case HEVCPROFILE_MAIN:
+-    case HEVCPROFILE_MAIN10:
+-      return true;
+-    case HEVCPROFILE_MAIN_STILL_PICTURE:
+-      return false;
+-    default:
+-      NOTREACHED();
+-  }
+-#endif  // BUILDFLAG(ENABLE_PLATFORM_ENCRYPTED_HEVC)
+-  return false;
+-}
+-
+ bool IsVp9ProfileSupported(const VideoType& type) {
+ #if BUILDFLAG(ENABLE_LIBVPX)
+   // High bit depth capabilities may be toggled via LibVPX config flags.
+@@ -308,13 +281,12 @@ bool IsDefaultSupportedVideoType(const VideoType& type) {
+     case VideoCodec::kH264:
+     case VideoCodec::kVP8:
+     case VideoCodec::kTheora:
++    case VideoCodec::kHEVC:
+       return true;
+     case VideoCodec::kAV1:
+       return IsAV1Supported(type);
+     case VideoCodec::kVP9:
+       return IsVp9ProfileSupported(type);
+-    case VideoCodec::kHEVC:
+-      return IsHevcProfileSupported(type);
+     case VideoCodec::kMPEG4:
+       return IsMPEG4Supported();
+     case VideoCodec::kUnknown:
+@@ -350,10 +322,10 @@ bool IsDefaultSupportedAudioType(const AudioType& type) {
+     case AudioCodec::kPCM_S24BE:
+     case AudioCodec::kPCM_ALAW:
+     case AudioCodec::kVorbis:
+-      return true;
++    case AudioCodec::kAC3:
+     case AudioCodec::kEAC3:
++      return true;
+     case AudioCodec::kALAC:
+-    case AudioCodec::kAC3:
+     case AudioCodec::kMpegHAudio:
+     case AudioCodec::kDTS:
+     case AudioCodec::kDTSXP2:
+diff --git a/media/ffmpeg/ffmpeg_common.cc b/media/ffmpeg/ffmpeg_common.cc
+index be3707a880047..867086572d92a 100644
+--- a/media/ffmpeg/ffmpeg_common.cc
++++ b/media/ffmpeg/ffmpeg_common.cc
+@@ -136,6 +136,10 @@ AVCodecID AudioCodecToCodecID(AudioCodec audio_codec,
+   switch (audio_codec) {
+     case AudioCodec::kAAC:
+       return AV_CODEC_ID_AAC;
++    case AudioCodec::kAC3:
++      return AV_CODEC_ID_AC3;
++    case AudioCodec::kEAC3:
++      return AV_CODEC_ID_EAC3;
+     case AudioCodec::kALAC:
+       return AV_CODEC_ID_ALAC;
+     case AudioCodec::kMP3:
+diff --git a/media/media_options.gni b/media/media_options.gni
+index 18669bec32172..62ceb006c0442 100644
+--- a/media/media_options.gni
++++ b/media/media_options.gni
+@@ -46,16 +46,15 @@ declare_args() {
+   # Enables AC3/EAC3 audio demuxing. This is enabled only on Chromecast, since
+   # it only provides demuxing, and is only useful for AC3/EAC3 audio
+   # pass-through to HDMI sink on Chromecast.
+-  enable_platform_ac3_eac3_audio = proprietary_codecs && is_chromecast
++  enable_platform_ac3_eac3_audio = true
+ 
+-  enable_platform_mpeg_h_audio = proprietary_codecs && is_chromecast
++  enable_platform_mpeg_h_audio = true
+ 
+   # Enables DTS/DTSX audio handling in chromium. This includes demuxing,
+   # on-device decoding and bitstream passthrough as supported by device.
+   enable_platform_dts_audio = false
+ 
+-  enable_mse_mpeg2ts_stream_parser =
+-      proprietary_codecs && (is_chromecast || is_fuchsia || use_fuzzing_engine)
++  enable_mse_mpeg2ts_stream_parser = true
+ 
+   enable_platform_encrypted_hevc =
+       proprietary_codecs &&
+@@ -90,9 +89,7 @@ declare_args() {
+   # Enable HEVC/H265 demuxing. Actual decoding must be provided by the
+   # platform. Enabled by default for Chromecast, fuzzer builds and protected
+   # video on ChromeOS and Windows.
+-  enable_platform_hevc =
+-      proprietary_codecs &&
+-      (is_chromecast || use_fuzzing_engine || enable_platform_encrypted_hevc)
++  enable_platform_hevc = true
+ 
+   # Enable HEVC/H265 decoding with hardware acceleration assist. Enabled by
+   # default for fuzzer builds and protected video on ChromeOS. It is also
+diff --git a/third_party/electron_node b/third_party/electron_node
+new file mode 160000
+index 0000000000000..2d3de24004cd6
+--- /dev/null
++++ b/third_party/electron_node
+@@ -0,0 +1 @@
++Subproject commit 2d3de24004cd6831ac22f573f5cb6b417317562e
+diff --git a/third_party/nan b/third_party/nan
+new file mode 160000
+index 0000000000000..bb8bf24d8c7ab
+--- /dev/null
++++ b/third_party/nan
+@@ -0,0 +1 @@
++Subproject commit bb8bf24d8c7ab3da122b762fce1856a00906488d
+diff --git a/third_party/squirrel.mac b/third_party/squirrel.mac
+new file mode 160000
+index 0000000000000..b5c37f19a11ff
+--- /dev/null
++++ b/third_party/squirrel.mac
+@@ -0,0 +1 @@
++Subproject commit b5c37f19a11ff7c174ff699f6097a4dc35dcae5f

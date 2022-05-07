@@ -1,0 +1,13 @@
+diff --git a/build/args/release.gn b/build/args/release.gn
+index e5017f6e1..0b81bd95c 100644
+--- a/build/args/release.gn
++++ b/build/args/release.gn
+@@ -2,6 +2,8 @@ import("all.gn")
+ is_component_build = false
+ is_official_build = true
+ 
++proprietary_codecs=true
++
+ # This may be guarded behind is_chrome_branded alongside
+ # proprietary_codecs https://webrtc-review.googlesource.com/c/src/+/36321,
+ # explicitly override here to build OpenH264 encoder/FFmpeg decoder.
