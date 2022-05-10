@@ -1,6 +1,6 @@
 # electron-chromium-codecs
 This repository contains the necessary git patches to build a custom electron dist with bundled HEVC, AC3 and E-AC3 codecs support for chromium.
-
+TODO: More codecs such as MPEG-2 and DTS.
 ## Compiling Electron
 Follow the electron [build instructions](https://www.electronjs.org/docs/latest/development/build-instructions-gn).
 ### Linux
