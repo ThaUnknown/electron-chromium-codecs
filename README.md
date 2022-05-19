@@ -102,9 +102,20 @@ $ cd src/electron/ && git reset --hard HEAD && git clean -df
 $ cd src/third_party/ffmpeg/ && git reset --hard HEAD && git clean -df
 ```
 
+## Windows fix for EOF
+```bash
+cd src
+dos2unix electron/shell/common/extensions/api/resources_private.idl
+dos2unix electron/shell/common/extensions/api/cryptotoken_private.idl
+dos2unix chrome/common/extensions/api/resources_private.idl
+dos2unix chrome/common/extensions/api/cryptotoken_private.idl
+```
+
 ## Credits
 
 Thanks [ThaUnknown](https://github.com/ThaUnknown) for providing help with debugging and the final steps on ffmpeg chromium scripts in order make chromium point the correct codecs to ffmpeg demuxer for the AC3 audio.
+
+Thanks [Kirdow](https://github.com/Kirdow) for compiling and testing on Windows, as well as for the fix regarding EOF files on Windows that prevented people from linking.
 
 Thanks [henrypp](https://github.com/henrypp/chromium) for the initial patches on HEVC.
 
