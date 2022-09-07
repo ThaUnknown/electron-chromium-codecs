@@ -47,7 +47,7 @@ Choosing a stable electron version to build
 (Make sure you have the same node version as stated in your versions [DEPS file](https://github.com/electron/electron/blob/main/DEPS))
 ```bash
 $ cd src/electron
-$ git checkout v18.2.1
+$ git checkout v20.1.1
 # You might want to force the checkout with git checkout -f
 # Change the node version now to the same node version as the electron tag you want to use
 $ gclient sync -f
@@ -55,17 +55,17 @@ $ gclient sync -f
 
 Move patches to respective directories
 ```bash
-$ mv look_chromium_hevc_ac3.patch electron/src/
-$ mv look_electron_hevc_ac3.patch electron/src/electron/
-$ mv look_ffmpeg_hevc_ac3.patch electron/src/third_party/ffmpeg/
+$ mv look_chromium_hevc_ac3.patch src/
+$ mv look_electron_hevc_ac3.patch src/electron/
+$ mv look_ffmpeg_hevc_ac3.patch src/third_party/ffmpeg/
 ```
 
 Apply the patches
 
 ```bash
 $ cd src/ && git apply look_chromium_hevc_ac3.patch
-$ cd electron/ && git apply look_electron_hevc_ac3.patch
-$ cd .. && cd third_party/ffmpeg/ && git apply look_ffmpeg_hevc_ac3.patch
+$ cd src/electron/ && git apply look_electron_hevc_ac3.patch
+$ cd src/third_party/ffmpeg/ && git apply look_ffmpeg_hevc_ac3.patch
 ```
 
 Build Electron (step 5)
@@ -90,7 +90,9 @@ Result dist will be inside src/out/Release/dist.zip
 Updating electron repository (pull)
 ```bash
 $ cd src/electron
-$ git pull
+$ git fetch
+$ git checkout <v20.1.1>
+# Change the node version now to the same node version as the electron tag you want to use
 $ gclient sync -f
 ```
 
