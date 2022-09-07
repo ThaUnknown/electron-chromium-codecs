@@ -1,0 +1,23 @@
+diff --git a/build/args/release.gn b/build/args/release.gn
+index e5017f6e16..09ec87fafd 100644
+--- a/build/args/release.gn
++++ b/build/args/release.gn
+@@ -2,6 +2,18 @@ import("all.gn")
+ is_component_build = false
+ is_official_build = true
+ 
++proprietary_codecs = true
++
++enable_platform_hevc = true
++
++enable_platform_dts_audio = true
++
++enable_hevc_parser_and_hw_decoder = true
++
++enable_mse_mpeg2ts_stream_parser = true
++
++enable_platform_mpeg_h_audio = true
++
+ # This may be guarded behind is_chrome_branded alongside
+ # proprietary_codecs https://webrtc-review.googlesource.com/c/src/+/36321,
+ # explicitly override here to build OpenH264 encoder/FFmpeg decoder.

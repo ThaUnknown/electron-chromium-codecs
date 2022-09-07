@@ -1,0 +1,132 @@
+diff --git a/media/base/supported_types.cc b/media/base/supported_types.cc
+index c2efcdbb74381..508c5d972e2e4 100644
+--- a/media/base/supported_types.cc
++++ b/media/base/supported_types.cc
+@@ -200,44 +200,6 @@ bool IsAudioCodecProprietary(AudioCodec codec) {
+ }
+ #endif  // !BUILDFLAG(USE_PROPRIETARY_CODECS)
+ 
+-bool IsHevcProfileSupported(const VideoType& type) {
+-  if (!IsColorSpaceSupported(type.color_space))
+-    return false;
+-
+-#if BUILDFLAG(ENABLE_PLATFORM_HEVC)
+-#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
+-#if BUILDFLAG(IS_CHROMEOS_LACROS)
+-  // TODO(b/171813538): For Lacros, the supplemental profile cache will be
+-  // asking lacros-gpu, but we will be doing decoding in ash-gpu. Until the
+-  // codec detection is plumbed through to ash-gpu we can do this extra check
+-  // for HEVC support.
+-  if (base::CommandLine::ForCurrentProcess()->HasSwitch(
+-          switches::kLacrosEnablePlatformHevc)) {
+-    return true;
+-  }
+-#endif  // BUILDFLAG(IS_CHROMEOS_LACROS)
+-  return GetSupplementalProfileCache()->IsProfileSupported(type.profile);
+-#elif BUILDFLAG(IS_MAC)
+-  if (__builtin_available(macOS 11.0, *))
+-    return base::FeatureList::IsEnabled(kPlatformHEVCDecoderSupport) &&
+-           (type.profile == HEVCPROFILE_MAIN ||
+-            type.profile == HEVCPROFILE_MAIN10 ||
+-            type.profile == HEVCPROFILE_MAIN_STILL_PICTURE ||
+-            type.profile == HEVCPROFILE_REXT);
+-  return false;
+-#elif BUILDFLAG(IS_ANDROID)
+-  // Technically android 5.0 mandates support for only HEVC main profile,
+-  // however some platforms (like chromecast) have had more profiles supported
+-  // so we'll see what happens if we just enable them all.
+-  return base::FeatureList::IsEnabled(kPlatformHEVCDecoderSupport);
+-#else
+-  return true;
+-#endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_CHROMEOS) || BUILDFLAG(IS_LINUX)
+-#else
+-  return false;
+-#endif  // BUILDFLAG(ENABLE_PLATFORM_HEVC)
+-}
+-
+ bool IsVp9ProfileSupported(const VideoType& type) {
+ #if BUILDFLAG(ENABLE_LIBVPX)
+   // High bit depth capabilities may be toggled via LibVPX config flags.
+@@ -345,18 +307,17 @@ bool IsDefaultSupportedVideoType(const VideoType& type) {
+     case VideoCodec::kH264:
+     case VideoCodec::kVP8:
+     case VideoCodec::kTheora:
++	case VideoCodec::kHEVC:
++	case VideoCodec::kMPEG2:
+       return true;
+     case VideoCodec::kAV1:
+       return IsAV1Supported(type);
+     case VideoCodec::kVP9:
+       return IsVp9ProfileSupported(type);
+-    case VideoCodec::kHEVC:
+-      return IsHevcProfileSupported(type);
+     case VideoCodec::kMPEG4:
+       return IsMPEG4Supported();
+     case VideoCodec::kUnknown:
+     case VideoCodec::kVC1:
+-    case VideoCodec::kMPEG2:
+     case VideoCodec::kDolbyVision:
+       return false;
+   }
+@@ -387,10 +348,10 @@ bool IsDefaultSupportedAudioType(const AudioType& type) {
+     case AudioCodec::kPCM_S24BE:
+     case AudioCodec::kPCM_ALAW:
+     case AudioCodec::kVorbis:
++	case AudioCodec::kAC3:
++	case AudioCodec::kEAC3:
+       return true;
+-    case AudioCodec::kEAC3:
+     case AudioCodec::kALAC:
+-    case AudioCodec::kAC3:
+     case AudioCodec::kMpegHAudio:
+     case AudioCodec::kUnknown:
+       return false;
+diff --git a/media/ffmpeg/ffmpeg_common.cc b/media/ffmpeg/ffmpeg_common.cc
+index 9500983595f4d..279298069948b 100644
+--- a/media/ffmpeg/ffmpeg_common.cc
++++ b/media/ffmpeg/ffmpeg_common.cc
+@@ -139,6 +139,10 @@ AVCodecID AudioCodecToCodecID(AudioCodec audio_codec,
+   switch (audio_codec) {
+     case AudioCodec::kAAC:
+       return AV_CODEC_ID_AAC;
++    case AudioCodec::kAC3:
++      return AV_CODEC_ID_AC3;
++    case AudioCodec::kEAC3:
++      return AV_CODEC_ID_EAC3;
+     case AudioCodec::kALAC:
+       return AV_CODEC_ID_ALAC;
+     case AudioCodec::kMP3:
+diff --git a/media/media_options.gni b/media/media_options.gni
+index b3727203d40b9..ff6f6667f04e0 100644
+--- a/media/media_options.gni
++++ b/media/media_options.gni
+@@ -46,16 +46,15 @@ declare_args() {
+   # Enables AC3/EAC3 audio demuxing. This is enabled only on Chromecast, since
+   # it only provides demuxing, and is only useful for AC3/EAC3 audio
+   # pass-through to HDMI sink on Chromecast.
+-  enable_platform_ac3_eac3_audio = proprietary_codecs && is_chromecast
++  enable_platform_ac3_eac3_audio = true
+ 
+-  enable_platform_mpeg_h_audio = proprietary_codecs && is_chromecast
++  enable_platform_mpeg_h_audio = true
+ 
+   # Enables DTS/DTSX audio handling in chromium. This includes demuxing,
+   # on-device decoding and bitstream passthrough as supported by device.
+   enable_platform_dts_audio = false
+ 
+-  enable_mse_mpeg2ts_stream_parser =
+-      proprietary_codecs && (is_chromecast || is_fuchsia || use_fuzzing_engine)
++  enable_mse_mpeg2ts_stream_parser = true
+ 
+   # Enable Dolby Vision demuxing. Enable by default for Chromecast. Actual
+   # decoding must be provided by the platform. Note some Dolby Vision profiles
+@@ -96,8 +95,7 @@ declare_args() {
+   # Enable HEVC/H265 demuxing. Actual decoding must be provided by the
+   # platform.
+   # TODO(b/194429120): Enable this for Lacros builds.
+-  enable_platform_hevc =
+-      proprietary_codecs && (is_chromecast || enable_hevc_parser_and_hw_decoder)
++  enable_platform_hevc = true
+ }
+ 
+ assert(
