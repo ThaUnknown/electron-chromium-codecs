@@ -91,7 +91,7 @@ Updating electron repository (changing electron version)
 ```bash
 $ cd src/electron
 $ git fetch
-$ git checkout <v20.1.1>
+$ git checkout v20.1.1
 # Change the node version now to the same node version as the electron tag you want to use
 $ gclient sync -f
 ```
