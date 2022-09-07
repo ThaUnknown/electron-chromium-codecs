@@ -87,7 +87,7 @@ Result dist will be inside src/out/Release/dist.zip
 
 ## Updating electron and rebuilding
 
-Updating electron repository (pull)
+Updating electron repository (changing electron version)
 ```bash
 $ cd src/electron
 $ git fetch
