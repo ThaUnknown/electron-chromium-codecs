@@ -1,0 +1,409 @@
+diff --git a/chromium/config/Chrome/linux/x64/config.h b/chromium/config/Chrome/linux/x64/config.h
+index 2dc833e597..c8d0ce3c96 100644
+--- a/chromium/config/Chrome/linux/x64/config.h
++++ b/chromium/config/Chrome/linux/x64/config.h
+@@ -650,13 +650,13 @@
+ #define CONFIG_MUXERS 0
+ #define CONFIG_PROTOCOLS 0
+ #define CONFIG_AANDCTTABLES 0
+-#define CONFIG_AC3DSP 0
++#define CONFIG_AC3DSP 1
+ #define CONFIG_ADTS_HEADER 1
+ #define CONFIG_ATSC_A53 1
+ #define CONFIG_AUDIO_FRAME_QUEUE 0
+ #define CONFIG_AUDIODSP 0
+ #define CONFIG_BLOCKDSP 0
+-#define CONFIG_BSWAPDSP 0
++#define CONFIG_BSWAPDSP 1
+ #define CONFIG_CABAC 1
+ #define CONFIG_CBS 0
+ #define CONFIG_CBS_AV1 0
+@@ -668,7 +668,7 @@
+ #define CONFIG_DEFLATE_WRAPPER 0
+ #define CONFIG_DIRAC_PARSE 1
+ #define CONFIG_DNN 0
+-#define CONFIG_DOVI_RPU 0
++#define CONFIG_DOVI_RPU 1
+ #define CONFIG_DVPROFILE 0
+ #define CONFIG_EXIF 0
+ #define CONFIG_FAANDCT 0
+@@ -686,8 +686,8 @@
+ #define CONFIG_H264PRED 1
+ #define CONFIG_H264QPEL 1
+ #define CONFIG_H264_SEI 1
+-#define CONFIG_HEVCPARSE 0
+-#define CONFIG_HEVC_SEI 0
++#define CONFIG_HEVCPARSE 1
++#define CONFIG_HEVC_SEI 1
+ #define CONFIG_HPELDSP 1
+ #define CONFIG_HUFFMAN 0
+ #define CONFIG_HUFFYUVDSP 0
+diff --git a/chromium/config/Chrome/linux/x64/config_components.h b/chromium/config/Chrome/linux/x64/config_components.h
+index 3604442a32..0074bb0c77 100644
+--- a/chromium/config/Chrome/linux/x64/config_components.h
++++ b/chromium/config/Chrome/linux/x64/config_components.h
+@@ -10,7 +10,7 @@
+ #define CONFIG_DCA_CORE_BSF 0
+ #define CONFIG_DTS2PTS_BSF 0
+ #define CONFIG_DV_ERROR_MARKER_BSF 0
+-#define CONFIG_EAC3_CORE_BSF 0
++#define CONFIG_EAC3_CORE_BSF 1
+ #define CONFIG_EXTRACT_EXTRADATA_BSF 0
+ #define CONFIG_FILTER_UNITS_BSF 0
+ #define CONFIG_H264_METADATA_BSF 0
+@@ -134,7 +134,7 @@
+ #define CONFIG_H264_QSV_DECODER 0
+ #define CONFIG_H264_RKMPP_DECODER 0
+ #define CONFIG_HAP_DECODER 0
+-#define CONFIG_HEVC_DECODER 0
++#define CONFIG_HEVC_DECODER 1
+ #define CONFIG_HEVC_QSV_DECODER 0
+ #define CONFIG_HEVC_RKMPP_DECODER 0
+ #define CONFIG_HEVC_V4L2M2M_DECODER 0
+@@ -337,8 +337,8 @@
+ #define CONFIG_AAC_DECODER 1
+ #define CONFIG_AAC_FIXED_DECODER 0
+ #define CONFIG_AAC_LATM_DECODER 0
+-#define CONFIG_AC3_DECODER 0
+-#define CONFIG_AC3_FIXED_DECODER 0
++#define CONFIG_AC3_DECODER 1
++#define CONFIG_AC3_FIXED_DECODER 1
+ #define CONFIG_ACELP_KELVIN_DECODER 0
+ #define CONFIG_ALAC_DECODER 0
+ #define CONFIG_ALS_DECODER 0
+@@ -369,7 +369,7 @@
+ #define CONFIG_DSICINAUDIO_DECODER 0
+ #define CONFIG_DSS_SP_DECODER 0
+ #define CONFIG_DST_DECODER 0
+-#define CONFIG_EAC3_DECODER 0
++#define CONFIG_EAC3_DECODER 1
+ #define CONFIG_EVRC_DECODER 0
+ #define CONFIG_FASTAUDIO_DECODER 0
+ #define CONFIG_FFWAVESYNTH_DECODER 0
+@@ -556,11 +556,11 @@
+ #define CONFIG_WEBVTT_DECODER 0
+ #define CONFIG_XSUB_DECODER 0
+ #define CONFIG_AAC_AT_DECODER 0
+-#define CONFIG_AC3_AT_DECODER 0
++#define CONFIG_AC3_AT_DECODER 1
+ #define CONFIG_ADPCM_IMA_QT_AT_DECODER 0
+ #define CONFIG_ALAC_AT_DECODER 0
+ #define CONFIG_AMR_NB_AT_DECODER 0
+-#define CONFIG_EAC3_AT_DECODER 0
++#define CONFIG_EAC3_AT_DECODER 1
+ #define CONFIG_GSM_MS_AT_DECODER 0
+ #define CONFIG_ILBC_AT_DECODER 0
+ #define CONFIG_MP1_AT_DECODER 0
+@@ -931,7 +931,7 @@
+ #define CONFIG_WMV3_VDPAU_HWACCEL 0
+ #define CONFIG_AAC_PARSER 1
+ #define CONFIG_AAC_LATM_PARSER 0
+-#define CONFIG_AC3_PARSER 0
++#define CONFIG_AC3_PARSER 1
+ #define CONFIG_ADX_PARSER 0
+ #define CONFIG_AMR_PARSER 0
+ #define CONFIG_AV1_PARSER 0
+@@ -959,7 +959,7 @@
+ #define CONFIG_H261_PARSER 0
+ #define CONFIG_H263_PARSER 0
+ #define CONFIG_H264_PARSER 1
+-#define CONFIG_HEVC_PARSER 0
++#define CONFIG_HEVC_PARSER 1
+ #define CONFIG_HDR_PARSER 0
+ #define CONFIG_IPU_PARSER 0
+ #define CONFIG_JPEG2000_PARSER 0
+@@ -1577,7 +1577,7 @@
+ #define CONFIG_AA_DEMUXER 0
+ #define CONFIG_AAC_DEMUXER 1
+ #define CONFIG_AAX_DEMUXER 0
+-#define CONFIG_AC3_DEMUXER 0
++#define CONFIG_AC3_DEMUXER 1
+ #define CONFIG_ACE_DEMUXER 0
+ #define CONFIG_ACM_DEMUXER 0
+ #define CONFIG_ACT_DEMUXER 0
+@@ -1659,7 +1659,7 @@
+ #define CONFIG_DXA_DEMUXER 0
+ #define CONFIG_EA_DEMUXER 0
+ #define CONFIG_EA_CDATA_DEMUXER 0
+-#define CONFIG_EAC3_DEMUXER 0
++#define CONFIG_EAC3_DEMUXER 1
+ #define CONFIG_EPAF_DEMUXER 0
+ #define CONFIG_FFMETADATA_DEMUXER 0
+ #define CONFIG_FILMSTRIP_DEMUXER 0
+diff --git a/chromium/config/Chrome/linux/x64/libavcodec/codec_list.c b/chromium/config/Chrome/linux/x64/libavcodec/codec_list.c
+index cbd7f3945a..1bc1adaf63 100644
+--- a/chromium/config/Chrome/linux/x64/libavcodec/codec_list.c
++++ b/chromium/config/Chrome/linux/x64/libavcodec/codec_list.c
+@@ -17,4 +17,8 @@ static const FFCodec * const codec_list[] = {
+     &ff_pcm_s32le_decoder,
+     &ff_pcm_u8_decoder,
+     &ff_libopus_decoder,
++    &ff_hevc_decoder,
++    &ff_ac3_decoder,
++    &ff_eac3_decoder,
++    &ff_ac3_fixed_decoder,
+     NULL };
+diff --git a/chromium/config/Chrome/linux/x64/libavcodec/parser_list.c b/chromium/config/Chrome/linux/x64/libavcodec/parser_list.c
+index 50acddb28e..3cade58c41 100644
+--- a/chromium/config/Chrome/linux/x64/libavcodec/parser_list.c
++++ b/chromium/config/Chrome/linux/x64/libavcodec/parser_list.c
+@@ -8,4 +8,6 @@ static const AVCodecParser * const parser_list[] = {
+     &ff_vp3_parser,
+     &ff_vp8_parser,
+     &ff_vp9_parser,
++    &ff_hevc_parser,
++    &ff_ac3_parser,
+     NULL };
+diff --git a/chromium/config/Chrome/linux/x64/libavformat/demuxer_list.c b/chromium/config/Chrome/linux/x64/libavformat/demuxer_list.c
+index 920b22bfa7..d6d293dc60 100644
+--- a/chromium/config/Chrome/linux/x64/libavformat/demuxer_list.c
++++ b/chromium/config/Chrome/linux/x64/libavformat/demuxer_list.c
+@@ -6,4 +6,6 @@ static const AVInputFormat * const demuxer_list[] = {
+     &ff_mp3_demuxer,
+     &ff_ogg_demuxer,
+     &ff_wav_demuxer,
++    &ff_ac3_demuxer,
++    &ff_eac3_demuxer,
+     NULL };
+diff --git a/chromium/config/Chrome/win/x64/config.h b/chromium/config/Chrome/win/x64/config.h
+index 02d074b823..4cfcf51810 100644
+--- a/chromium/config/Chrome/win/x64/config.h
++++ b/chromium/config/Chrome/win/x64/config.h
+@@ -650,13 +650,13 @@
+ #define CONFIG_MUXERS 0
+ #define CONFIG_PROTOCOLS 0
+ #define CONFIG_AANDCTTABLES 0
+-#define CONFIG_AC3DSP 0
++#define CONFIG_AC3DSP 1
+ #define CONFIG_ADTS_HEADER 1
+ #define CONFIG_ATSC_A53 1
+ #define CONFIG_AUDIO_FRAME_QUEUE 0
+ #define CONFIG_AUDIODSP 0
+ #define CONFIG_BLOCKDSP 0
+-#define CONFIG_BSWAPDSP 0
++#define CONFIG_BSWAPDSP 1
+ #define CONFIG_CABAC 1
+ #define CONFIG_CBS 0
+ #define CONFIG_CBS_AV1 0
+@@ -668,7 +668,7 @@
+ #define CONFIG_DEFLATE_WRAPPER 0
+ #define CONFIG_DIRAC_PARSE 1
+ #define CONFIG_DNN 0
+-#define CONFIG_DOVI_RPU 0
++#define CONFIG_DOVI_RPU 1
+ #define CONFIG_DVPROFILE 0
+ #define CONFIG_EXIF 0
+ #define CONFIG_FAANDCT 0
+@@ -686,8 +686,8 @@
+ #define CONFIG_H264PRED 1
+ #define CONFIG_H264QPEL 1
+ #define CONFIG_H264_SEI 1
+-#define CONFIG_HEVCPARSE 0
+-#define CONFIG_HEVC_SEI 0
++#define CONFIG_HEVCPARSE 1
++#define CONFIG_HEVC_SEI 1
+ #define CONFIG_HPELDSP 1
+ #define CONFIG_HUFFMAN 0
+ #define CONFIG_HUFFYUVDSP 0
+diff --git a/chromium/config/Chrome/win/x64/config_components.h b/chromium/config/Chrome/win/x64/config_components.h
+index 3604442a32..0074bb0c77 100644
+--- a/chromium/config/Chrome/win/x64/config_components.h
++++ b/chromium/config/Chrome/win/x64/config_components.h
+@@ -10,7 +10,7 @@
+ #define CONFIG_DCA_CORE_BSF 0
+ #define CONFIG_DTS2PTS_BSF 0
+ #define CONFIG_DV_ERROR_MARKER_BSF 0
+-#define CONFIG_EAC3_CORE_BSF 0
++#define CONFIG_EAC3_CORE_BSF 1
+ #define CONFIG_EXTRACT_EXTRADATA_BSF 0
+ #define CONFIG_FILTER_UNITS_BSF 0
+ #define CONFIG_H264_METADATA_BSF 0
+@@ -134,7 +134,7 @@
+ #define CONFIG_H264_QSV_DECODER 0
+ #define CONFIG_H264_RKMPP_DECODER 0
+ #define CONFIG_HAP_DECODER 0
+-#define CONFIG_HEVC_DECODER 0
++#define CONFIG_HEVC_DECODER 1
+ #define CONFIG_HEVC_QSV_DECODER 0
+ #define CONFIG_HEVC_RKMPP_DECODER 0
+ #define CONFIG_HEVC_V4L2M2M_DECODER 0
+@@ -337,8 +337,8 @@
+ #define CONFIG_AAC_DECODER 1
+ #define CONFIG_AAC_FIXED_DECODER 0
+ #define CONFIG_AAC_LATM_DECODER 0
+-#define CONFIG_AC3_DECODER 0
+-#define CONFIG_AC3_FIXED_DECODER 0
++#define CONFIG_AC3_DECODER 1
++#define CONFIG_AC3_FIXED_DECODER 1
+ #define CONFIG_ACELP_KELVIN_DECODER 0
+ #define CONFIG_ALAC_DECODER 0
+ #define CONFIG_ALS_DECODER 0
+@@ -369,7 +369,7 @@
+ #define CONFIG_DSICINAUDIO_DECODER 0
+ #define CONFIG_DSS_SP_DECODER 0
+ #define CONFIG_DST_DECODER 0
+-#define CONFIG_EAC3_DECODER 0
++#define CONFIG_EAC3_DECODER 1
+ #define CONFIG_EVRC_DECODER 0
+ #define CONFIG_FASTAUDIO_DECODER 0
+ #define CONFIG_FFWAVESYNTH_DECODER 0
+@@ -556,11 +556,11 @@
+ #define CONFIG_WEBVTT_DECODER 0
+ #define CONFIG_XSUB_DECODER 0
+ #define CONFIG_AAC_AT_DECODER 0
+-#define CONFIG_AC3_AT_DECODER 0
++#define CONFIG_AC3_AT_DECODER 1
+ #define CONFIG_ADPCM_IMA_QT_AT_DECODER 0
+ #define CONFIG_ALAC_AT_DECODER 0
+ #define CONFIG_AMR_NB_AT_DECODER 0
+-#define CONFIG_EAC3_AT_DECODER 0
++#define CONFIG_EAC3_AT_DECODER 1
+ #define CONFIG_GSM_MS_AT_DECODER 0
+ #define CONFIG_ILBC_AT_DECODER 0
+ #define CONFIG_MP1_AT_DECODER 0
+@@ -931,7 +931,7 @@
+ #define CONFIG_WMV3_VDPAU_HWACCEL 0
+ #define CONFIG_AAC_PARSER 1
+ #define CONFIG_AAC_LATM_PARSER 0
+-#define CONFIG_AC3_PARSER 0
++#define CONFIG_AC3_PARSER 1
+ #define CONFIG_ADX_PARSER 0
+ #define CONFIG_AMR_PARSER 0
+ #define CONFIG_AV1_PARSER 0
+@@ -959,7 +959,7 @@
+ #define CONFIG_H261_PARSER 0
+ #define CONFIG_H263_PARSER 0
+ #define CONFIG_H264_PARSER 1
+-#define CONFIG_HEVC_PARSER 0
++#define CONFIG_HEVC_PARSER 1
+ #define CONFIG_HDR_PARSER 0
+ #define CONFIG_IPU_PARSER 0
+ #define CONFIG_JPEG2000_PARSER 0
+@@ -1577,7 +1577,7 @@
+ #define CONFIG_AA_DEMUXER 0
+ #define CONFIG_AAC_DEMUXER 1
+ #define CONFIG_AAX_DEMUXER 0
+-#define CONFIG_AC3_DEMUXER 0
++#define CONFIG_AC3_DEMUXER 1
+ #define CONFIG_ACE_DEMUXER 0
+ #define CONFIG_ACM_DEMUXER 0
+ #define CONFIG_ACT_DEMUXER 0
+@@ -1659,7 +1659,7 @@
+ #define CONFIG_DXA_DEMUXER 0
+ #define CONFIG_EA_DEMUXER 0
+ #define CONFIG_EA_CDATA_DEMUXER 0
+-#define CONFIG_EAC3_DEMUXER 0
++#define CONFIG_EAC3_DEMUXER 1
+ #define CONFIG_EPAF_DEMUXER 0
+ #define CONFIG_FFMETADATA_DEMUXER 0
+ #define CONFIG_FILMSTRIP_DEMUXER 0
+diff --git a/chromium/config/Chrome/win/x64/libavcodec/codec_list.c b/chromium/config/Chrome/win/x64/libavcodec/codec_list.c
+index cbd7f3945a..1bc1adaf63 100644
+--- a/chromium/config/Chrome/win/x64/libavcodec/codec_list.c
++++ b/chromium/config/Chrome/win/x64/libavcodec/codec_list.c
+@@ -17,4 +17,8 @@ static const FFCodec * const codec_list[] = {
+     &ff_pcm_s32le_decoder,
+     &ff_pcm_u8_decoder,
+     &ff_libopus_decoder,
++    &ff_hevc_decoder,
++    &ff_ac3_decoder,
++    &ff_eac3_decoder,
++    &ff_ac3_fixed_decoder,
+     NULL };
+diff --git a/chromium/config/Chrome/win/x64/libavcodec/parser_list.c b/chromium/config/Chrome/win/x64/libavcodec/parser_list.c
+index 50acddb28e..3cade58c41 100644
+--- a/chromium/config/Chrome/win/x64/libavcodec/parser_list.c
++++ b/chromium/config/Chrome/win/x64/libavcodec/parser_list.c
+@@ -8,4 +8,6 @@ static const AVCodecParser * const parser_list[] = {
+     &ff_vp3_parser,
+     &ff_vp8_parser,
+     &ff_vp9_parser,
++    &ff_hevc_parser,
++    &ff_ac3_parser,
+     NULL };
+diff --git a/chromium/config/Chrome/win/x64/libavformat/demuxer_list.c b/chromium/config/Chrome/win/x64/libavformat/demuxer_list.c
+index 920b22bfa7..d6d293dc60 100644
+--- a/chromium/config/Chrome/win/x64/libavformat/demuxer_list.c
++++ b/chromium/config/Chrome/win/x64/libavformat/demuxer_list.c
+@@ -6,4 +6,6 @@ static const AVInputFormat * const demuxer_list[] = {
+     &ff_mp3_demuxer,
+     &ff_ogg_demuxer,
+     &ff_wav_demuxer,
++    &ff_ac3_demuxer,
++    &ff_eac3_demuxer,
+     NULL };
+diff --git a/chromium/scripts/build_ffmpeg.py b/chromium/scripts/build_ffmpeg.py
+index 19d0a0f7bc..5f2107cf32 100755
+--- a/chromium/scripts/build_ffmpeg.py
++++ b/chromium/scripts/build_ffmpeg.py
+@@ -1003,9 +1003,9 @@ def ConfigureAndBuild(target_arch, target_os, host_os, host_arch, parallel_jobs,
+ 
+   # Google Chrome & ChromeOS specific configuration.
+   configure_flags['Chrome'].extend([
+-      '--enable-decoder=aac,h264',
+-      '--enable-demuxer=aac',
+-      '--enable-parser=aac,h264',
++      '--enable-decoder=aac,h264,mp3,eac3,ac3,hevc,mpeg4,mpegvideo,mp2,mp1,flac',
++      '--enable-demuxer=aac,mp3,mov,dtshd,dts,avi,mpegvideo,m4v,h264,vc1,flac',
++      '--enable-parser=aac,h264,mpegaudio,mpeg4video,mpegvideo,ac3,h261,vc1,h263,flac',
+   ])
+ 
+   # Google ChromeOS specific configuration.
+diff --git a/ffmpeg_generated.gni b/ffmpeg_generated.gni
+index f0b5c66668..48a0685588 100644
+--- a/ffmpeg_generated.gni
++++ b/ffmpeg_generated.gni
+@@ -485,6 +485,53 @@ if ((is_apple) || (is_win) || (use_linux_config)) {
+     "libavcodec/vp8dsp.c",
+     "libavcodec/vpx_rac.c",
+   ]
++  ffmpeg_c_sources += [
++    "libavcodec/autorename_libavcodec_bswapdsp.c",
++    "libavcodec/dovi_rpu.c",
++    "libavcodec/dynamic_hdr_vivid.c",
++    "libavcodec/hevc_cabac.c",
++    "libavcodec/hevc_data.c",
++    "libavcodec/hevc_filter.c",
++    "libavcodec/hevc_mvs.c",
++    "libavcodec/hevc_parse.c",
++    "libavcodec/hevc_parser.c",
++    "libavcodec/hevc_ps.c",
++    "libavcodec/hevc_refs.c",
++    "libavcodec/hevc_sei.c",
++    "libavcodec/hevcdec.c",
++    "libavcodec/hevcdsp.c",
++    "libavcodec/hevcpred.c",
++    "libavcodec/x86/ac3dsp_init.c",
++    "libavcodec/ac3dsp.c",
++    "libavcodec/fmtconvert.c",
++    "libavcodec/ac3tab.c",
++    "libavcodec/ac3dec_float.c",
++    "libavcodec/ac3.c",
++    "libavcodec/x86/fmtconvert_init.c",
++    "libavcodec/ac3dec_data.c",
++    "libavcodec/eac3dec.c",
++    "libavcodec/eac3_data.c",
++    "libavcodec/ac3dec_fixed.c",
++    "libavformat/ac3dec.c",
++  ]
++  
++  ffmpeg_c_sources += [
++    "libavcodec/x86/bswapdsp_init.c",
++    "libavcodec/x86/hevcdsp_init.c"
++  ]
++
++  ffmpeg_asm_sources += [
++    "libavcodec/x86/bswapdsp.asm",
++    "libavcodec/x86/hevc_add_res.asm",
++    "libavcodec/x86/hevc_deblock.asm",
++    "libavcodec/x86/hevc_idct.asm",
++    "libavcodec/x86/hevc_mc.asm",
++    "libavcodec/x86/hevc_sao.asm",
++    "libavcodec/x86/hevc_sao_10bit.asm",
++    "libavcodec/x86/ac3dsp.asm",
++    "libavcodec/x86/ac3dsp_downmix.asm",
++    "libavcodec/x86/fmtconvert.asm",
++  ]
+ }
+ 
+ if ((is_apple && current_cpu == "arm64") || (is_win && current_cpu == "arm64") || (use_linux_config && current_cpu == "arm64")) {
